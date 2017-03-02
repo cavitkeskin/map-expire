@@ -2,7 +2,7 @@
 
 ## install
 
-```bash
+```sh
 npm install --save map-expire
 ```
 
