@@ -1,0 +1,28 @@
+{
+  "name": "map-expire",
+  "version": "0.0.2",
+  "description": "Extended Map object with capasity and expire",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cavitkeskin/map-expire.git"
+  },
+  "keywords": [
+    "map",
+    "expire",
+    "capasity",
+    "cache",
+    "memory",
+    "key",
+    "value"
+  ],
+  "author": "Cavit Keskin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cavitkeskin/map-expire/issues"
+  },
+  "homepage": "https://github.com/cavitkeskin/map-expire#readme"
+}
