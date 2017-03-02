@@ -1,5 +1,7 @@
 # map-expire
 
+Extended Map object with capasity and expire features
+
 ## install
 
 ```sh
