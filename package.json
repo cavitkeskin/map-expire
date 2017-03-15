@@ -1,6 +1,6 @@
 {
   "name": "map-expire",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Extended Map object with capasity and expire",
   "main": "index.js",
   "scripts": {
