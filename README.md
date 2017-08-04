@@ -4,6 +4,7 @@ Extended Map object with capasity and expire features
 
 ## install
 
+
 ```sh
 npm install --save map-expire
 ```
@@ -27,7 +28,7 @@ var value = cache.get(key)
 
 - get(key)
 	return undefined if not exists or expired
-	
+
 - capasity (property, integer)
 
 ## test
@@ -35,4 +36,3 @@ var value = cache.get(key)
 ```sh
 npm test
 ```
-	
