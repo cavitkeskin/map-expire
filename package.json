@@ -4,7 +4,7 @@
   "description": "Extended Map object with capasity and expire",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test.js"
+    "test": "npx mocha test.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/cavitkeskin/map-expire/issues"
   },
-  "homepage": "https://github.com/cavitkeskin/map-expire#readme"
+  "homepage": "https://github.com/cavitkeskin/map-expire#readme",
+  "devDependencies": {
+    "mocha": "^7.1.0"
+  }
 }

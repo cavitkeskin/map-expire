@@ -13,7 +13,8 @@ npm install --save map-expire
 
 ```javascript
 
-var cache = require('map-expire');
+const Cache = require('map-expire');
+const new Cache()
 
 cache.set(key, value, duration)
 
@@ -28,8 +29,6 @@ var value = cache.get(key)
 
 - get(key)
 	return undefined if not exists or expired
-
-- capasity (property, integer)
 
 ## test
 

@@ -14,9 +14,10 @@ class Entity {
 }
 
 class Cache extends Map {
-	constructor(values){
+	constructor(values, capasity = 100){
 		super(values)
 		this.events = new EventEmitter()
+		this.capasity = capasity
 	}
 	set(key, value, duration){
 		var entity = new Entity(value, duration)
@@ -31,7 +32,6 @@ class Cache extends Map {
 	}
 
 	clean(){
-		this.capasity = this.capasity || 100;
 		if(this.size < this.capasity) return;
 		this.forEach(function(item, key){
 			if(item.expired) this.delete(key)
@@ -48,5 +48,4 @@ class Cache extends Map {
 	}
 }
 
-//module.exports = new Cache();
 module.exports = Cache;
