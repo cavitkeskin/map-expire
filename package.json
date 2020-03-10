@@ -1,7 +1,7 @@
 {
   "name": "map-expire",
-  "version": "0.0.4",
-  "description": "Extended Map object with capasity and expire",
+  "version": "0.0.5",
+  "description": "Extended Map object with capacity and expire",
   "main": "index.js",
   "scripts": {
     "test": "npx mocha test.js"
@@ -13,7 +13,7 @@
   "keywords": [
     "map",
     "expire",
-    "capasity",
+    "capacity",
     "cache",
     "memory",
     "key",

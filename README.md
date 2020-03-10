@@ -1,6 +1,6 @@
 # map-expire
 
-Extended Map object with capasity and expire features
+Extended Map object with capacity and expire features
 
 ## install
 

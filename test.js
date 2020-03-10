@@ -26,11 +26,11 @@ describe('Extended Map Object', function(){
 		}, 200)
 	})
 	
-	it('capasity test', function(done){
+	it('capacity test', function(done){
 		for(var i = 0; i<200; i++){
 			cache.set(`key_${i}`, `value_${i}`);
 		}
-		assert.equal(cache.size, cache.capasity, `it should be ${cache.capasity}`)
+		assert.equal(cache.size, cache.capacity, `it should be ${cache.capacity}`)
 		done()
 	})
 })
