@@ -5,11 +5,11 @@ const EventEmitter = require('events');
 class Entity {
 	constructor(data, duration){
 		this.data = data
-		this.expire = duration ? (new Date()).getTime() + duration : false
+		this.expire = duration ? Date.now() + duration : false
 	}
 
 	get expired(){
-		return this.expire ? this.expire < (new Date()).getTime() : false;
+		return this.expire ? this.expire <= Date.now() : false
 	}
 }
 
@@ -23,7 +23,12 @@ class Cache extends Map {
 		var entity = new Entity(value, duration)
 		super.set(key, entity)
 		this.events.emit('save', key, value, duration)
-		this.clean()
+		if(this.size > this.capacity) this.clean()
+		if(duration) setTimeout(key => {
+			const o = super.get(key)
+			if(o && !o.expired) console.log(`${key} is not expired!`, Date.now() - o.expire)
+			if(o && o.expired) this.delete(key); 
+		}, duration, key)
 	}
 
 	get(key){
@@ -31,11 +36,11 @@ class Cache extends Map {
 		return entity === undefined || entity.expired ? undefined : entity.data;
 	}
 
+	delete(key){
+		this.events.emit('delete', key, super.get(key).data)
+		super.delete(key)
+	}
 	clean(){
-		if(this.size < this.capacity) return;
-		this.forEach(function(item, key){
-			if(item.expired) this.delete(key)
-		}, this)
 		var keys = this.keys();
 		while(this.size > this.capacity){
 			var key = keys.next().value;
