@@ -25,7 +25,7 @@ var value = cache.get(key)
 ## API
 
 - set(key, value, duration)
-	if duration (second) is falsy or not given this item will never be expired.
+	if duration (millisecond) is falsy or not given this item will never be expired.
 
 - get(key)
 	return undefined if not exists or expired
