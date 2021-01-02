@@ -14,11 +14,11 @@ npm install --save map-expire
 ```javascript
 
 const Cache = require('map-expire');
-const new Cache()
+const cache = new Cache()
 
 cache.set(key, value, duration)
 
-var value = cache.get(key)
+const value = cache.get(key)
 
 ```
 
