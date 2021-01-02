@@ -1,64 +1,87 @@
-'use strict';
+'use strict'
 
-var Cache = require('./index'),
-	assert = require('assert');
+const cache = require('./index')
+const MapExpire = require('./MapExpire')
+const assert = require('assert')
 
-describe('Extended Map Object', function(){
-	it('add/update item', function(done){
-		const cache = new Cache([], 20)	
-		cache.set(5, 5)
-		assert.strict.equal(cache.get(5), 5);
-		cache.set(5, 'five');
-		assert.strict.equal(cache.get(5), 'five');
-		done()
-	})
+describe('Map Expire', function(){
+  describe('Method Test', ()=>{
+    it('should pass set/delete methods', done => {
+      const map = new MapExpire()
+      map.set('key', 5)
+      assert.strictEqual(map.get('key'), 5)
+      map.set('key', 'FIVE')
+      assert.strictEqual(map.get('key'), 'FIVE')
+      map.set('key', null)
+      assert.strictEqual(map.get('key'), null)
+      map.delete('key')
+      assert.strictEqual(map.get('key'), undefined)
+      done()
+    })
+  })
 
-	it('capacity test', function(done){
-		const cache = new Cache([], 20)	
-		for(var i = 0; i<200; i++){
-			cache.set(`key_${i}`, `value_${i}`);
-		}
-		assert.equal(cache.size, cache.capacity, `it should be ${cache.capacity}`)
-		done()
-	})
-	it('should all data expired', done => {
-		const cache = new Cache([], 20)	
-		for(var i = 0; i<200; i++){
-			cache.set(`key_${i}`, `value_${i}`, 200);
-		}
-		const test = t => {
-			return new Promise ((resolve, reject) => {
-				setTimeout(() => resolve(cache.size), t)
-			})
-		}
-		const jobs = [1, 2, 3, 4].map(t => test(t*100))
-		Promise.all(jobs).then(ts => {
-			assert.ok(ts.includes(0))
-			done()
-		}).catch(err => done(err))
-	})
-})
-
-describe('Event Test', function(){
+  describe('Event Test', ()=>{
+    it('should fire set event', done => {
+      const map = new MapExpire()
+      map.on('set', key => {
+        assert.strictEqual(key, 'key')
+        done()
+      })
+      map.set('key', 'value')
+    })
+    it('should fire update event', done => {
+      const map = new MapExpire()
+      map.on('update', (key, value) => {
+        assert.strictEqual(key, 'key')
+        assert.strictEqual(value, 'value-updated')
+        done()
+      })
+      map.set('key', 'value')
+      map.set('key', 'value-updated')
+    })
+    it('should fire delete event', done => {
+      const map = new MapExpire()
+      map.on('delete', key => {
+        assert.strictEqual(key, 'key')
+        done()
+      })
+      map.set('key', 'value')
+      map.delete('key')
+    })
+    it('should fire delete event when expired', done => {
+      const map = new MapExpire()
+      map.on('delete', (key, value) => {
+        assert.strictEqual(key, 'key')
+        assert.strictEqual(value, 'value-updated')
+        done()
+      })
+      map.set('key', 'value', 10000)
+      map.set('key', 'value-updated', 10)
+    })
+    it('should delete all key-value pairs', done => {
+      const keys = [
+        'one', 
+        'two',
+        'three',
+      ]
+      const deleted = []
+      const map = new MapExpire(keys.map((key, n)=>[key, n]))
+      map.on('delete', key => deleted.push(key))
+      map.clear()
+      assert.deepStrictEqual(keys, deleted)
+      done()
+    })
+  })
 	
-	it('save event', done => {
-		const cache = new Cache()	
-		cache.on('save', (key, value)=>{
-			assert.strict.equal(key, '3a')
-			assert.strict.equal(value, 'AAA')
-			done()
-		})
-		cache.set('3a', 'AAA')
-	})
-
-	it('expire event', done => {
-		const cache = new Cache()	
-		cache.on('delete', (key, value)=>{
-			assert.strict.equal(key, 'exp')
-			assert.strict.equal(value, 'EXPIRED')
-			done()
-		})
-		cache.set('exp', 'EXPIRED', 100)
-	})
-
+  describe('Capasity Test', function(){
+    it('should delete overflowed items', done=>{
+      const test = 10
+      cache.capacity = 3
+      for (let n = 0; n < test; n++) cache.set(n, n * n)
+      assert.strictEqual(cache.size, cache.capacity)
+      for (let n = test - cache.capacity; n < test; n++)
+        assert.strictEqual(cache.get(n), n * n)
+      done()
+    })
+  })
 })

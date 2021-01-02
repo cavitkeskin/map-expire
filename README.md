@@ -13,22 +13,37 @@ npm install --save map-expire
 
 ```javascript
 
-const Cache = require('map-expire');
-const cache = new Cache()
+const cache = require('map-expire');
 
 cache.set(key, value, duration)
 
 const value = cache.get(key)
+cache.delete(key)
+```
 
+or
+
+```js
+const MapExpire = require('map-expire/MapExpire');
+const options = {
+	capacity: 100, 
+	duration: 1000 // in millisecond, default expiration time
+}
+const cache = new MapExpire([], options)
+
+cache.set(key, value, duration)
+const value = cache.get(key)
+cache.delete(key)
 ```
 
 ## API
 
 - set(key, value, duration)
-	if duration (millisecond) is falsy or not given this item will never be expired.
+
+	duration will be set to default value if not given.
 
 - get(key)
-	return undefined if not exists or expired
+	returns with undefined if not exists or expired
 
 ## test
 
