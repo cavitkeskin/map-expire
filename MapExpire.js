@@ -22,8 +22,8 @@ class MapExpire extends Map {
   constructor(values, options){
     super()
     this.events = new EventEmitter() 
-    this.capacity = options?.capacity 
-    this.duration = options?.duration 
+    this.capacity = options && options.capacity 
+    this.duration = options && options.duration 
     if (values) values.forEach(item => this.set(...item))
   }
     
@@ -42,7 +42,7 @@ class MapExpire extends Map {
 
   get(key){
     const entity = super.get(key)
-    return entity?.value
+    return entity && entity.value
   }
 
   delete(key){
