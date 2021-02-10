@@ -3,6 +3,7 @@
 const cache = require('./index')
 const MapExpire = require('./MapExpire')
 const assert = require('assert')
+var sinon = require('sinon')
 
 describe('Map Expire', function(){
   describe('Method Test', ()=>{
@@ -81,6 +82,18 @@ describe('Map Expire', function(){
       assert.strictEqual(cache.size, cache.capacity)
       for (let n = test - cache.capacity; n < test; n++)
         assert.strictEqual(cache.get(n), n * n)
+      done()
+    })
+    it('should handle items deletion while new cache items exeeding capacity are being set quicker than ttl', done => {
+      var clock = sinon.useFakeTimers()
+      const map = new MapExpire([], {
+        capacity: 10,
+      })
+      map.on('delete', (_, value) => {
+        assert.strictEqual(value, 'value')
+      })
+      Array.from({length: 11}).map((_, i) => i).map(key => map.set(key, 'value', 100))
+      clock.tick(100)
       done()
     })
   })

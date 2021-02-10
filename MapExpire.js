@@ -46,7 +46,8 @@ class MapExpire extends Map {
   }
 
   delete(key){
-    this.events.emit('delete', key, super.get(key).value)
+    const superKey = super.get(key)
+    if (superKey) this.events.emit('delete', key, superKey.value)
     super.delete(key)
   }
 
